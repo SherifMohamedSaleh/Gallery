@@ -74,13 +74,16 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
 
     let useCamera = Permission.Camera.needsPermission && Permission.Camera.status == .authorized
 
-    let tabsToShow = Config.tabsToShow.compactMap { $0 != .cameraTab ? $0 : (useCamera ? $0 : nil) }
+//    let tabsToShow = Config.tabsToShow.compactMap { $0 != .cameraTab ? $0 : (useCamera ? $0 : nil) }
+    
+        let tabsToShow = Config.tabsToShow.compactMap { $0 != .imageTab ? $0 : (useCamera ? $0 : nil) }
 
     let controllers: [UIViewController] = tabsToShow.compactMap { tab in
       if tab == .imageTab {
         return makeImagesController()
-      } else if tab == .cameraTab {
-        return makeCameraController()
+//      }
+//      else if tab == .cameraTab {
+//        return makeCameraController()
       } else if tab == .videoTab {
         return makeVideosController()
       } else {
@@ -93,7 +96,7 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
     }
 
     let controller = PagesController(controllers: controllers)
-    controller.selectedIndex = tabsToShow.firstIndex(of: Config.initialTab ?? .cameraTab) ?? 0
+    controller.selectedIndex = tabsToShow.firstIndex(of: Config.initialTab ?? .imageTab) ?? 0
 
     return controller
   }
